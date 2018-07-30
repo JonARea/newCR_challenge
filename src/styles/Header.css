@@ -1,0 +1,11 @@
+.header {
+  width: 100vw;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  cursor: pointer;
+}

@@ -1,0 +1,35 @@
+.UploadDataFormButton {
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: #c1d5e0;
+  padding: 1em;
+  cursor: pointer;
+}
+
+.UploadDataFormSubmit {
+  padding: 1em;
+  font-size: 1em;
+  border: 1px solid black;
+  background-color:  #c1d5e0;
+}
+
+.UploadDataForm {
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  min-height: 80vh;
+}
+
+.UploadDataFormTextArea {
+  min-width: 50vw;
+  min-height: 50vh;
+  margin: 1em;
+  border: 1px solid black;
+}
+
+#UploadJSONFile {
+  margin: 1em;
+  font-size: 1em;
+}
