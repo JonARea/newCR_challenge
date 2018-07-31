@@ -1,14 +1,21 @@
 # newCR_challenge
 
-## Run
+## Using the App
+### (newclassroomscodingchallenge.herokuapp.com)
+Paste JSON data or upload a JSON file to get user statistics.
 
-npm install
-npm start
+## Using the API
+1. Send a POST request to newclassroomscodingchallenge.herokuapp.com/api/data
+2. Set the Accept header to 'application/json', 'application/xml', or 'text/plain'
+3. Include user data as the request body.
+4. Enjoy your statistics!
 
-## Test
+## Running the App locally
 
-npm test
+### npm install
+### npm start
 
-## API
+## Testing the API
 
-Send a POST request to newclassroomscodingchallenge.herokuapp.com/api/data, with userData as the request body. Set accept header to 'application/json', 'application/xml', or 'text/plain'. Enjoy your statistics.
+### npm test
+
