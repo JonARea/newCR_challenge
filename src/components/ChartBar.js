@@ -1,5 +1,5 @@
 import React from 'react'
-import {BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, Cell} from 'recharts'
+import {BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, Cell} from 'recharts'
 import '../styles/ChartBar.css'
 import PropTypes from 'prop-types'
 
