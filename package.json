@@ -21,7 +21,6 @@
     "eslint-plugin-react": "^7.4.0",
     "express": "^4.16.3",
     "history": "^4.7.2",
-    "jest": "20.0.4",
     "jquery": "^3.3.1",
     "jsontoxml": "^1.0.0",
     "prop-types": "^15.6.2",
@@ -36,12 +35,17 @@
   "scripts": {
     "start": "webpack -w & nodemon server/index.js",
     "build": "webpack",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "mocha tests/api.test.js --exit"
   },
   "description": "Coding Challenge",
   "main": "server/index.js",
   "devDependencies": {
-    "morgan": "^1.9.0"
+    "axios": "^0.18.0",
+    "jest": "20.0.4",
+    "mocha": "^5.2.0",
+    "morgan": "^1.9.0",
+    "react-test-renderer": "^16.4.1",
+    "supertest": "^3.1.0"
   },
   "author": "Jon Rea",
   "license": "ISC",
