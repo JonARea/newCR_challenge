@@ -1,22 +1,16 @@
 import React from 'react'
 import {PieChart, Pie, Cell, Tooltip, Legend} from 'recharts'
 import {setChartSize} from '../utils'
+import PropTypes from 'prop-types'
 
 const ChartPie = ({data, colors, category}) => {
-  if (!data) {
-    data = {
-      males: 51,
-      females: 49
-    },
-    colors = ['ccc', '666']
-  }
   const dataArray = data ? Object.keys(data).map((catName, index) => ({
     name: catName,
     value: data[catName],
     color: colors[index % colors.length]
   })) : null
 
-  return (
+  return (dataArray ?
     <div>
       <h2>{`Percentages by ${category}`}</h2>
       <PieChart
@@ -43,8 +37,14 @@ const ChartPie = ({data, colors, category}) => {
         </Pie>
         <Tooltip />
       </PieChart>
-    </div>
+    </div> : <h2>Please upload some data</h2>
   )
+}
+
+ChartPie.propTypes = {
+  data: PropTypes.object,
+  colors: PropTypes.array.isRequired,
+  category: PropTypes.string.isRequired
 }
 
 export default ChartPie

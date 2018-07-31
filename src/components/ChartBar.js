@@ -1,6 +1,7 @@
 import React from 'react'
 import {BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, Cell} from 'recharts'
 import '../styles/ChartBar.css'
+import PropTypes from 'prop-types'
 
 class ChartBar extends React.Component {
   constructor() {
@@ -11,7 +12,7 @@ class ChartBar extends React.Component {
   }
 
   render() {
-    const {data, type, colors} = this.props
+    const {data, type, colors, history, location} = this.props
     let xAxis, barValue
     if (type === 'state') {
       xAxis = 'state'
@@ -24,11 +25,35 @@ class ChartBar extends React.Component {
     return (data ?
       <div className='ChartBarContainer'>
         <h2>{`Percentages by ${type}`}</h2>
-        <h3>Filter by Category</h3>
-        <div className='ChartBarCategorySelector'>
-          <div className='ChartBarCategory' onClick={() => this.setState({category: 'overall'})}>Overall</div>
-          <div className='ChartBarCategory' onClick={() => this.setState({category: 'females'})}>Females</div>
-          <div className='ChartBarCategory' onClick={() => this.setState({category: 'males'})}>Males</div>
+        <h3 className='ChartBarFilterHeader'>Filter by Category</h3>
+        <div className='ChartBarCategoryContainer'>
+          <div
+            className={location.pathname.includes('overall') ? 'ChartBarCategory ChartBarCategoryActive' : 'ChartBarCategory'}
+            onClick={() => {
+              this.setState({category: 'overall'})
+              history.push(`/${type}/overall`)
+            }}
+          >
+            Overall
+          </div>
+          <div
+            className={location.pathname.includes('females') ? 'ChartBarCategory ChartBarCategoryActive' : 'ChartBarCategory'}
+            onClick={() => {
+              this.setState({category: 'females'})
+              history.push(`/${type}/females`)
+            }}
+          >
+            Females
+          </div>
+          <div
+            className={location.pathname.includes('males') && !location.pathname.includes('females') ? 'ChartBarCategory ChartBarCategoryActive' : 'ChartBarCategory'}
+            onClick={() => {
+              this.setState({category: 'males'})
+              history.push(`/${type}/males`)
+            }}
+          >
+            Males
+          </div>
         </div>
         <BarChart
           width={window.innerWidth}
@@ -41,12 +66,27 @@ class ChartBar extends React.Component {
           <YAxis/>
           <Tooltip/>
           <Bar dataKey={barValue}>
-            {data ? data[this.state.category].map((bar, index) => <Cell fill={colors[index % colors.length]} key={bar.name}>{bar.percentage}</Cell>): null}
+            {data ? data[this.state.category].map((bar, index) =>
+              <Cell
+                fill={colors[index % colors.length]}
+                key={bar.name}
+              >
+                {bar.percentage}
+              </Cell>
+            ): null}
           </Bar>
         </BarChart>
       </div> : <h2>Please upload some data</h2>
     )
   }
+}
+
+ChartBar.propTypes = {
+  data: PropTypes.object,
+  colors: PropTypes.array.isRequired,
+  type: PropTypes.string.isRequired,
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 }
 
 export default ChartBar

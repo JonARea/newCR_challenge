@@ -1,14 +1,27 @@
 
-.ChartBarCategorySelector {
+.ChartBarCategoryContainer {
   display: flex;
   cursor: pointer;
   min-height: 2.5em;
+  margin: 1em;
 }
 
 .ChartBarCategory {
-  width: 10vw;
-  height: 2em;
-  margin: 2vw;
+  width: 100px;
+  height: 3em;
+  margin: 0 2vw;
+  padding: 1em;
+  box-shadow: 0 2px 22px #555;
+}
+.ChartBarCategory:hover {
+  background-color: #c1d5e0;
+}
+.ChartBarCategoryActive {
+  border: 2px solid #64b5f6;
+}
+
+.ChartBarFilterHeader {
+  margin: 0;
 }
 
 .ChartBarContainer {

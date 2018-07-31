@@ -54543,6 +54543,12 @@ var _ChartContainer2 = _interopRequireDefault(_ChartContainer);
 
 var _reactRouterDom = __webpack_require__(195);
 
+var _toastr = __webpack_require__(1055);
+
+var _toastr2 = _interopRequireDefault(_toastr);
+
+var _utils = __webpack_require__(1048);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -54557,10 +54563,32 @@ var App = function (_Component) {
   function App() {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
+
+    _this.state = {
+      userData: {}
+    };
+    _this.handleDataUpload = _this.handleDataUpload.bind(_this);
+    return _this;
   }
 
   _createClass(App, [{
+    key: 'handleDataUpload',
+    value: function handleDataUpload() {
+      var _this2 = this;
+
+      (0, _utils.fetchUserData)().then(function (data) {
+        if (data === 'Not JSON') {
+          _toastr2.default.error('That\'s not JSON!');
+        } else {
+          _this2.setState({ userData: data });
+          _toastr2.default.success('Data Uploaded Successfully!');
+        }
+      }).catch(function () {
+        return _toastr2.default.error('There was a problem with your JSON data');
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -54569,8 +54597,8 @@ var App = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'App' },
-          _react2.default.createElement(_Header2.default, null),
-          _react2.default.createElement(_ChartContainer2.default, null)
+          _react2.default.createElement(_Header2.default, { handleDataUpload: this.handleDataUpload }),
+          _react2.default.createElement(_ChartContainer2.default, { userData: this.state.userData })
         )
       );
     }
@@ -54621,7 +54649,7 @@ exports = module.exports = __webpack_require__(86)(undefined);
 
 
 // module
-exports.push([module.i, "* {\n  box-sizing: border-box;\n}\n\nbody {\n  margin: 0;\n}\n\n.App {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-around;\n}\n", ""]);
+exports.push([module.i, "* {\n  box-sizing: border-box;\n}\n\nbody {\n  margin: 0;\n  font-family: 'Source Sans Pro', sans-serif;\n}\n\n.App {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-around;\n}\n", ""]);
 
 // exports
 
@@ -54643,12 +54671,23 @@ var _react2 = _interopRequireDefault(_react);
 
 __webpack_require__(632);
 
-var _reactRouterDom = __webpack_require__(195);
+var _UploadDataForm = __webpack_require__(1052);
+
+var _UploadDataForm2 = _interopRequireDefault(_UploadDataForm);
+
+var _HeaderTab = __webpack_require__(1060);
+
+var _HeaderTab2 = _interopRequireDefault(_HeaderTab);
+
+var _propTypes = __webpack_require__(2);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Header = function Header(_ref) {
-  var history = _ref.history;
+  var handleDataUpload = _ref.handleDataUpload;
+
   return _react2.default.createElement(
     'div',
     { className: 'header' },
@@ -54657,49 +54696,24 @@ var Header = function Header(_ref) {
       { className: 'title' },
       'User Infographics'
     ),
+    _react2.default.createElement(_UploadDataForm2.default, { handleDataUpload: handleDataUpload }),
     _react2.default.createElement(
       'div',
       { className: 'tabs' },
-      _react2.default.createElement(
-        'div',
-        { onClick: function onClick() {
-            return history.push('/gender');
-          }, className: 'tab' },
-        'Gender'
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'tab', onClick: function onClick() {
-            return history.push('/firstName');
-          } },
-        'First Name'
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'tab', onClick: function onClick() {
-            return history.push('/lastName');
-          } },
-        'Last Name'
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'tab', onClick: function onClick() {
-            return history.push('/state/overall');
-          } },
-        'State'
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'tab', onClick: function onClick() {
-            return history.push('/age/females');
-          } },
-        'Age'
-      )
+      _react2.default.createElement(_HeaderTab2.default, { uri: 'gender' }),
+      _react2.default.createElement(_HeaderTab2.default, { uri: 'firstName' }),
+      _react2.default.createElement(_HeaderTab2.default, { uri: 'LastName' }),
+      _react2.default.createElement(_HeaderTab2.default, { uri: 'state/overall' }),
+      _react2.default.createElement(_HeaderTab2.default, { uri: 'age/overall' })
     )
   );
 };
 
-exports.default = (0, _reactRouterDom.withRouter)(Header);
+Header.propTypes = {
+  handleDataUpload: _propTypes2.default.func.isRequired
+};
+
+exports.default = Header;
 
 /***/ }),
 /* 632 */
@@ -54741,7 +54755,7 @@ exports = module.exports = __webpack_require__(86)(undefined);
 
 
 // module
-exports.push([module.i, ".header {\n  width: 100vw;\n  text-align: center;\n  border-bottom: 1px solid black;\n}\n\n.tabs {\n  display: flex;\n  justify-content: space-around;\n  cursor: pointer;\n}\n", ""]);
+exports.push([module.i, ".header {\n  width: 100vw;\n  text-align: center;\n}\n\n.tabs {\n  display: flex;\n  justify-content: space-around;\n  flex-wrap: wrap;\n  cursor: pointer;\n  min-height: 3em;\n  margin: 2em;\n}\n\n.tab {\n  padding: 1em;\n  width: 120px;\n  box-shadow: 0 2px 22px #555;\n  margin: 0.5em;\n}\n\n.tab:hover {\n  background-color: #c1d5e0;\n}\n\n.tabActive {\n  border: 2px solid #64b5f6;\n}\n", ""]);
 
 // exports
 
@@ -57281,8 +57295,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -57299,15 +57311,11 @@ var _ChartBar2 = _interopRequireDefault(_ChartBar);
 
 var _reactRouterDom = __webpack_require__(195);
 
-var _UploadDataForm = __webpack_require__(1052);
-
-var _UploadDataForm2 = _interopRequireDefault(_UploadDataForm);
-
-var _toastr = __webpack_require__(1055);
-
-var _toastr2 = _interopRequireDefault(_toastr);
-
 __webpack_require__(1058);
+
+var _propTypes = __webpack_require__(2);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -57326,95 +57334,78 @@ var ChartContainer = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (ChartContainer.__proto__ || Object.getPrototypeOf(ChartContainer)).call(this));
 
     _this.state = {
-      userData: {},
       colors: ['#90a4ae', '#ff8a65', '#a1887f', '#aed581', '#7986cb', '#e57373']
     };
-    _this.isJSON = _this.isJSON.bind(_this);
-    _this.handleDataUpload = _this.handleDataUpload.bind(_this);
     return _this;
   }
 
   _createClass(ChartContainer, [{
-    key: 'isJSON',
-    value: function isJSON(data) {
-      try {
-        var object = JSON.parse(data);
-        return object && (typeof object === 'undefined' ? 'undefined' : _typeof(object)) === 'object';
-      } catch (error) {
-        return false;
-      }
-    }
-  }, {
-    key: 'handleDataUpload',
-    value: function handleDataUpload() {
-      var _this2 = this;
-
-      var file = document.getElementById('UploadJSONFile').files[0];
-
-      var pastedData = document.getElementById('json').value;
-      if (file || this.isJSON(pastedData)) {
-        fetch('/api/data', {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          method: 'POST',
-          body: file ? file : pastedData
-        }).then(function (res) {
-          return res.json();
-        }).then(function (data) {
-          _this2.setState({ userData: data });
-          _toastr2.default.success('Data Uploaded Successfully!');
-        }).catch(function () {
-          return _toastr2.default.error('There was a problem with your JSON data');
-        });
-      } else {
-        _toastr2.default.error('That\'s not JSON!');
-      }
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       return _react2.default.createElement(
         'div',
         { className: 'ChartContainer' },
-        _react2.default.createElement(_UploadDataForm2.default, { handleDataUpload: this.handleDataUpload }),
         _react2.default.createElement(
           _reactRouterDom.Switch,
           null,
           _react2.default.createElement(_reactRouterDom.Route, {
             path: '/gender',
             render: function render() {
-              return _react2.default.createElement(_ChartPie2.default, { data: _this3.state.userData.percentageByGender, colors: _this3.state.colors, category: 'gender' });
+              return _react2.default.createElement(_ChartPie2.default, {
+                data: _this2.props.userData.percentageByGender,
+                colors: _this2.state.colors,
+                category: 'gender'
+              });
             }
           }),
           _react2.default.createElement(_reactRouterDom.Route, {
             path: '/firstName',
-            render: function render(_ref) {
-              var match = _ref.match;
-              return _react2.default.createElement(_ChartPie2.default, { data: _this3.state.userData.percentageByFirstName, colors: _this3.state.colors, category: 'first name' });
+            render: function render() {
+              return _react2.default.createElement(_ChartPie2.default, {
+                data: _this2.props.userData.percentageByFirstName,
+                colors: _this2.state.colors,
+                category: 'first name'
+              });
             }
           }),
           _react2.default.createElement(_reactRouterDom.Route, {
             path: '/lastName',
             render: function render() {
-              return _react2.default.createElement(_ChartPie2.default, { data: _this3.state.userData.percentageByLastName, colors: _this3.state.colors, category: 'last name' });
+              return _react2.default.createElement(_ChartPie2.default, {
+                data: _this2.props.userData.percentageByLastName,
+                colors: _this2.state.colors,
+                category: 'last name'
+              });
             }
           }),
           _react2.default.createElement(_reactRouterDom.Route, {
             path: '/age',
-            render: function render(_ref2) {
-              var match = _ref2.match;
-              return _react2.default.createElement(_ChartBar2.default, { data: _this3.state.userData.percentageByAge ? _this3.state.userData.percentageByAge : null, type: 'age', colors: _this3.state.colors });
+            render: function render(_ref) {
+              var location = _ref.location,
+                  history = _ref.history;
+              return _react2.default.createElement(_ChartBar2.default, {
+                data: _this2.props.userData.percentageByAge,
+                type: 'age',
+                colors: _this2.state.colors,
+                location: location,
+                history: history
+              });
             }
           }),
           _react2.default.createElement(_reactRouterDom.Route, {
             path: '/state',
-            render: function render(_ref3) {
-              var match = _ref3.match;
-              return _react2.default.createElement(_ChartBar2.default, { data: _this3.state.userData.percentageByState ? _this3.state.userData.percentageByState : null, type: 'state', colors: _this3.state.colors });
+            render: function render(_ref2) {
+              var location = _ref2.location,
+                  history = _ref2.history;
+              return _react2.default.createElement(_ChartBar2.default, {
+                data: _this2.props.userData.percentageByState,
+                type: 'state',
+                colors: _this2.state.colors,
+                location: location,
+                history: history
+              });
             }
           })
         )
@@ -57424,6 +57415,10 @@ var ChartContainer = function (_React$Component) {
 
   return ChartContainer;
 }(_react2.default.Component);
+
+ChartContainer.propTypes = {
+  userData: _propTypes2.default.object.isRequired
+};
 
 exports.default = ChartContainer;
 
@@ -57446,6 +57441,10 @@ var _recharts = __webpack_require__(299);
 
 var _utils = __webpack_require__(1048);
 
+var _propTypes = __webpack_require__(2);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ChartPie = function ChartPie(_ref) {
@@ -57453,12 +57452,6 @@ var ChartPie = function ChartPie(_ref) {
       colors = _ref.colors,
       category = _ref.category;
 
-  if (!data) {
-    data = {
-      males: 51,
-      females: 49
-    }, colors = ['ccc', '666'];
-  }
   var dataArray = data ? Object.keys(data).map(function (catName, index) {
     return {
       name: catName,
@@ -57467,7 +57460,7 @@ var ChartPie = function ChartPie(_ref) {
     };
   }) : null;
 
-  return _react2.default.createElement(
+  return dataArray ? _react2.default.createElement(
     'div',
     null,
     _react2.default.createElement(
@@ -57504,7 +57497,17 @@ var ChartPie = function ChartPie(_ref) {
       ),
       _react2.default.createElement(_recharts.Tooltip, null)
     )
+  ) : _react2.default.createElement(
+    'h2',
+    null,
+    'Please upload some data'
   );
+};
+
+ChartPie.propTypes = {
+  data: _propTypes2.default.object,
+  colors: _propTypes2.default.array.isRequired,
+  category: _propTypes2.default.string.isRequired
 };
 
 exports.default = ChartPie;
@@ -76119,10 +76122,42 @@ function baseSum(array, iteratee) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var setChartSize = exports.setChartSize = function setChartSize() {
   var vw = window.innerWidth;
   var vh = window.innerHeight;
   return vw > vh ? vh / 3.5 : vw / 3.5;
+};
+
+var isJSON = function isJSON(data) {
+  try {
+    var object = JSON.parse(data);
+    return object && (typeof object === 'undefined' ? 'undefined' : _typeof(object)) === 'object';
+  } catch (error) {
+    return false;
+  }
+};
+
+var fetchUserData = exports.fetchUserData = function fetchUserData() {
+  var file = document.getElementById('UploadJSONFile').files[0];
+
+  var pastedData = document.getElementById('json').value;
+  if (file || isJSON(pastedData)) {
+    return fetch('/api/data', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: file ? file : pastedData
+    }).then(function (res) {
+      return res.json();
+    });
+  } else {
+    return 'Not JSON';
+  }
 };
 
 /***/ }),
@@ -76145,6 +76180,10 @@ var _react2 = _interopRequireDefault(_react);
 var _recharts = __webpack_require__(299);
 
 __webpack_require__(1050);
+
+var _propTypes = __webpack_require__(2);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -76176,7 +76215,9 @@ var ChartBar = function (_React$Component) {
       var _props = this.props,
           data = _props.data,
           type = _props.type,
-          colors = _props.colors;
+          colors = _props.colors,
+          history = _props.history,
+          location = _props.location;
 
       var xAxis = void 0,
           barValue = void 0;
@@ -76198,31 +76239,43 @@ var ChartBar = function (_React$Component) {
         ),
         _react2.default.createElement(
           'h3',
-          null,
+          { className: 'ChartBarFilterHeader' },
           'Filter by Category'
         ),
         _react2.default.createElement(
           'div',
-          { className: 'ChartBarCategorySelector' },
+          { className: 'ChartBarCategoryContainer' },
           _react2.default.createElement(
             'div',
-            { className: 'ChartBarCategory', onClick: function onClick() {
-                return _this2.setState({ category: 'overall' });
-              } },
+            {
+              className: location.pathname.includes('overall') ? 'ChartBarCategory ChartBarCategoryActive' : 'ChartBarCategory',
+              onClick: function onClick() {
+                _this2.setState({ category: 'overall' });
+                history.push('/' + type + '/overall');
+              }
+            },
             'Overall'
           ),
           _react2.default.createElement(
             'div',
-            { className: 'ChartBarCategory', onClick: function onClick() {
-                return _this2.setState({ category: 'females' });
-              } },
+            {
+              className: location.pathname.includes('females') ? 'ChartBarCategory ChartBarCategoryActive' : 'ChartBarCategory',
+              onClick: function onClick() {
+                _this2.setState({ category: 'females' });
+                history.push('/' + type + '/females');
+              }
+            },
             'Females'
           ),
           _react2.default.createElement(
             'div',
-            { className: 'ChartBarCategory', onClick: function onClick() {
-                return _this2.setState({ category: 'males' });
-              } },
+            {
+              className: location.pathname.includes('males') && !location.pathname.includes('females') ? 'ChartBarCategory ChartBarCategoryActive' : 'ChartBarCategory',
+              onClick: function onClick() {
+                _this2.setState({ category: 'males' });
+                history.push('/' + type + '/males');
+              }
+            },
             'Males'
           )
         ),
@@ -76244,7 +76297,10 @@ var ChartBar = function (_React$Component) {
             data ? data[this.state.category].map(function (bar, index) {
               return _react2.default.createElement(
                 _recharts.Cell,
-                { fill: colors[index % colors.length], key: bar.name },
+                {
+                  fill: colors[index % colors.length],
+                  key: bar.name
+                },
                 bar.percentage
               );
             }) : null
@@ -76260,6 +76316,14 @@ var ChartBar = function (_React$Component) {
 
   return ChartBar;
 }(_react2.default.Component);
+
+ChartBar.propTypes = {
+  data: _propTypes2.default.object,
+  colors: _propTypes2.default.array.isRequired,
+  type: _propTypes2.default.string.isRequired,
+  location: _propTypes2.default.object.isRequired,
+  history: _propTypes2.default.object.isRequired
+};
 
 exports.default = ChartBar;
 
@@ -76303,7 +76367,7 @@ exports = module.exports = __webpack_require__(86)(undefined);
 
 
 // module
-exports.push([module.i, "\n.ChartBarCategorySelector {\n  display: flex;\n  cursor: pointer;\n  min-height: 2.5em;\n}\n\n.ChartBarCategory {\n  width: 10vw;\n  height: 2em;\n  margin: 2vw;\n}\n\n.ChartBarContainer {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 1em;\n}\n", ""]);
+exports.push([module.i, "\n.ChartBarCategoryContainer {\n  display: flex;\n  cursor: pointer;\n  min-height: 2.5em;\n  margin: 1em;\n}\n\n.ChartBarCategory {\n  width: 100px;\n  height: 3em;\n  margin: 0 2vw;\n  padding: 1em;\n  box-shadow: 0 2px 22px #555;\n}\n.ChartBarCategory:hover {\n  background-color: #c1d5e0;\n}\n.ChartBarCategoryActive {\n  border: 2px solid #64b5f6;\n}\n\n.ChartBarFilterHeader {\n  margin: 0;\n}\n\n.ChartBarContainer {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 1em;\n}\n", ""]);
 
 // exports
 
@@ -76327,6 +76391,10 @@ var _react2 = _interopRequireDefault(_react);
 
 __webpack_require__(1053);
 
+var _propTypes = __webpack_require__(2);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -76344,8 +76412,7 @@ var UploadDataForm = function (_Component) {
     var _this = _possibleConstructorReturn(this, (UploadDataForm.__proto__ || Object.getPrototypeOf(UploadDataForm)).call(this));
 
     _this.state = {
-      open: false,
-      data: {}
+      open: false
     };
     return _this;
   }
@@ -76359,8 +76426,15 @@ var UploadDataForm = function (_Component) {
         'div',
         { className: 'UploadDataForm' },
         'Paste JSON here',
-        _react2.default.createElement('textarea', { className: 'UploadDataFormTextArea', autoComplete: 'off', autoCorrect: 'off', autoCapitalize: 'off', spellCheck: 'false', id: 'json' }),
-        'Or Upload JSON file',
+        _react2.default.createElement('textarea', {
+          className: 'UploadDataFormTextArea',
+          autoComplete: 'off',
+          autoCorrect: 'off',
+          autoCapitalize: 'off',
+          spellCheck: 'false',
+          id: 'json'
+        }),
+        'Or Upload a JSON file',
         _react2.default.createElement('input', { id: 'UploadJSONFile', type: 'file', accept: '.json' }),
         _react2.default.createElement(
           'div',
@@ -76382,6 +76456,10 @@ var UploadDataForm = function (_Component) {
 
   return UploadDataForm;
 }(_react.Component);
+
+UploadDataForm.propTypes = {
+  handleDataUpload: _propTypes2.default.func.isRequired
+};
 
 exports.default = UploadDataForm;
 
@@ -76425,7 +76503,7 @@ exports = module.exports = __webpack_require__(86)(undefined);
 
 
 // module
-exports.push([module.i, ".UploadDataFormButton {\n  border: 1px solid black;\n  border-radius: 5px;\n  background-color: #c1d5e0;\n  padding: 1em;\n  cursor: pointer;\n}\n\n.UploadDataFormSubmit {\n  padding: 1em;\n  font-size: 1em;\n  border: 1px solid black;\n  background-color:  #c1d5e0;\n}\n\n.UploadDataForm {\n  border: 1px solid black;\n  border-radius: 5px;\n  display: flex;\n  flex-direction: column;\n  padding: 1em;\n  min-height: 80vh;\n}\n\n.UploadDataFormTextArea {\n  min-width: 50vw;\n  min-height: 50vh;\n  margin: 1em;\n  border: 1px solid black;\n}\n\n#UploadJSONFile {\n  margin: 1em;\n  font-size: 1em;\n}\n", ""]);
+exports.push([module.i, ".UploadDataFormButton {\n  box-shadow: 0 5px 22px #555;\n  background-color: #c1d5e0;\n  padding: 1em;\n  cursor: pointer;\n}\n\n.UploadDataFormSubmit {\n  padding: 1em;\n  font-size: 1em;\n  box-shadow: 0 5px 22px #555;\n  background-color:  #c1d5e0;\n  cursor: pointer;\n}\n\n.UploadDataForm {\n  box-shadow: 0 10px 22px #555;\n  display: flex;\n  flex-direction: column;\n  padding: 1em;\n  min-height: 80vh;\n}\n\n.UploadDataFormTextArea {\n  min-width: 50vw;\n  min-height: 50vh;\n  margin: 1em;\n  border: 1px solid black;\n}\n\n#UploadJSONFile {\n  margin: 1em;\n  font-size: 1em;\n}\n", ""]);
 
 // exports
 
@@ -87331,6 +87409,53 @@ exports.push([module.i, ".ChartContainer {\n  display: flex;\n  flex-direction: 
 
 // exports
 
+
+/***/ }),
+/* 1060 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(2);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRouterDom = __webpack_require__(195);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var HeaderTab = function HeaderTab(_ref) {
+  var history = _ref.history,
+      location = _ref.location,
+      uri = _ref.uri;
+  return _react2.default.createElement(
+    'div',
+    {
+      className: location.pathname.includes(uri) ? 'tabActive tab' : 'tab',
+      onClick: function onClick() {
+        return history.push('/' + uri);
+      }
+    },
+    uri[0].toUpperCase() + uri.slice(1)
+  );
+};
+
+HeaderTab.propTypes = {
+  history: _propTypes2.default.object.isRequired,
+  location: _propTypes2.default.object.isRequired,
+  uri: _propTypes2.default.string.isRequired
+};
+
+exports.default = (0, _reactRouterDom.withRouter)(HeaderTab);
 
 /***/ })
 /******/ ]);

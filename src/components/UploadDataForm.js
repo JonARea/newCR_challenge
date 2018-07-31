@@ -1,20 +1,27 @@
 import React, {Component} from 'react'
 import '../styles/UploadDataForm.css'
+import PropTypes from 'prop-types'
 
 class UploadDataForm extends Component {
   constructor() {
     super()
     this.state = {
-      open: false,
-      data: {}
+      open: false
     }
   }
 
   render() {
     return (this.state.open ? (
       <div className='UploadDataForm'>Paste JSON here
-        <textarea className='UploadDataFormTextArea' autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" id='json' />
-        Or Upload JSON file
+        <textarea
+          className='UploadDataFormTextArea'
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck="false"
+          id='json'
+        />
+        Or Upload a JSON file
         <input id='UploadJSONFile' type="file" accept='.json' />
         <div className='UploadDataFormSubmit' onClick={() => {
           this.setState({open: false})
@@ -26,6 +33,10 @@ class UploadDataForm extends Component {
       )
     )
   }
+}
+
+UploadDataForm.propTypes = {
+  handleDataUpload: PropTypes.func.isRequired
 }
 
 export default UploadDataForm

@@ -1,6 +1,5 @@
 .UploadDataFormButton {
-  border: 1px solid black;
-  border-radius: 5px;
+  box-shadow: 0 5px 22px #555;
   background-color: #c1d5e0;
   padding: 1em;
   cursor: pointer;
@@ -9,13 +8,13 @@
 .UploadDataFormSubmit {
   padding: 1em;
   font-size: 1em;
-  border: 1px solid black;
+  box-shadow: 0 5px 22px #555;
   background-color:  #c1d5e0;
+  cursor: pointer;
 }
 
 .UploadDataForm {
-  border: 1px solid black;
-  border-radius: 5px;
+  box-shadow: 0 10px 22px #555;
   display: flex;
   flex-direction: column;
   padding: 1em;
