@@ -21,6 +21,7 @@
     "eslint-plugin-react": "^7.4.0",
     "express": "^4.16.3",
     "history": "^4.7.2",
+    "identity-obj-proxy": "^3.0.0",
     "jquery": "^3.3.1",
     "jsontoxml": "^1.0.0",
     "prop-types": "^15.6.2",
@@ -35,13 +36,16 @@
   "scripts": {
     "start": "webpack -w & node server/index.js",
     "build": "webpack",
-    "test": "mocha tests/api.test.js --exit"
+    "test": "mocha tests/mocha/*.js --exit & node_modules/jest/bin/jest.js tests/jest/*.js"
   },
   "description": "Coding Challenge",
   "main": "server/index.js",
   "devDependencies": {
     "axios": "^0.18.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "jest": "20.0.4",
+    "jsdom": "^11.12.0",
     "mocha": "^5.2.0",
     "morgan": "^1.9.0",
     "react-test-renderer": "^16.4.1",
@@ -49,40 +53,6 @@
   },
   "author": "Jon Rea",
   "license": "ISC",
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,mjs}"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
-    ],
-    "testEnvironment": "node",
-    "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
-    ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node",
-      "mjs"
-    ]
-  },
   "babel": {
     "presets": [
       "env",
@@ -91,5 +61,10 @@
   },
   "eslintConfig": {
     "extends": "airbnb"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy"
+    }
   }
 }

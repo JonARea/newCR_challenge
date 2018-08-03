@@ -69,7 +69,7 @@ class ChartBar extends React.Component {
             {data ? data[this.state.category].map((bar, index) =>
               <Cell
                 fill={colors[index % colors.length]}
-                key={bar.name}
+                key={bar[barValue]}
               >
                 {bar.percentage}
               </Cell>

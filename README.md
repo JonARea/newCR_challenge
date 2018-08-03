@@ -18,4 +18,3 @@ Paste JSON data or upload a JSON file to get user statistics.
 ## Testing the API
 
 ### npm test
-

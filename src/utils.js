@@ -15,8 +15,8 @@ const isJSON = (data) => {
 
 export const fetchUserData = () => {
   const file = document.getElementById('UploadJSONFile').files[0]
-
   const pastedData = document.getElementById('json').value
+
   if (file || isJSON(pastedData)) {
     return fetch('/api/data', {
       headers: {
